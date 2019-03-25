@@ -1,6 +1,8 @@
-const queryString = '?page=2&pageSize=10&total=203';
+const { isValidQueryString } = require('./helpers');
+
 const parseQueryString = qs => {
-  const [_head, ...tail] = qs.split(''); // eslint-disable-line no-unused-vars
+  if (!isValidQueryString(qs)) return {};
+  const [_head, ...tail] = qs.split('');
 
   return tail
     .join('')
@@ -14,5 +16,4 @@ const parseQueryString = qs => {
     }, {});
 };
 
-const result = parseQueryString(queryString);
-console.log(result);
+module.exports = parseQueryString;

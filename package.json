@@ -4,7 +4,7 @@
   "description": "Ramda exercises and snippets",
   "main": "n/a",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "tape test/*.js | tap-spec",
     "lint": "eslint 'katas/**/*.js'",
     "format": "prettier --write 'katas/**/*.js'"
   },
@@ -31,6 +31,8 @@
   "devDependencies": {
     "eslint": "^5.15.1",
     "eslint-config-prettier": "^4.1.0",
-    "prettier": "^1.16.4"
+    "prettier": "^1.16.4",
+    "tap-spec": "^5.0.0",
+    "tape": "^4.10.1"
   }
 }

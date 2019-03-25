@@ -1,12 +1,15 @@
 const R = require('ramda');
+const { isValidQueryString } = require('./helpers');
 
-const queryString = '?page=2&pageSize=10&total=203';
-const parseQueryString = R.pipe(
+const isValidQs = R.curry(isValidQueryString);
+const getDefault = R.always({});
+const parseQs = R.pipe(
   R.tail, // Remove the '?'
   R.split('&'), // ['page=2', 'pageSize=10'...]
   R.map(R.split('=')), // [['page', '2'], ['pageSize', '10']...]
   R.fromPairs // final object
 );
 
-const result = parseQueryString(queryString);
-console.log(result);
+const parseQueryString = R.ifElse(isValidQs, parseQs, getDefault);
+
+module.exports = parseQueryString;
