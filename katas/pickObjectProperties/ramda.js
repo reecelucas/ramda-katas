@@ -9,7 +9,5 @@ const products = [
   { name: 'Sauce Pan', price: 100, category: 'housewares' }
 ];
 
-const getNameAndPrice = R.project(['name', 'price']);
-const result = getNameAndPrice(products);
-
+const result = R.project(['name', 'price'], products);
 console.log(result);

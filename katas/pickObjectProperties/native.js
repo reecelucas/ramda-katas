@@ -1,22 +1,24 @@
-const products = [
-  { name: 'Jeans', price: 80, category: 'clothes' },
-  { name: 'Hoodie', price: 60, category: 'clothes' },
-  { name: 'Jacket', price: 120, category: 'clothes' },
-  { name: 'Cards', price: 35, category: 'games' },
-  { name: 'iPhone', price: 649, category: 'electronics' },
-  { name: 'Sauce Pan', price: 100, category: 'housewares' }
-];
+const isArray = arr => arr && Array.isArray(arr);
+const isArrayOfType = (arr, type) =>
+  isArray(arr) && arr.length && arr.every(item => typeof item === type);
 
 const pluck = (properties, object) =>
-  Object.entries(object).reduce((acc, [key, value]) => {
-    return {
+  Object.entries(object).reduce(
+    (acc, [key, value]) => ({
       ...acc,
       ...(properties.includes(key) && { [key]: value })
-    };
-  }, {});
+    }),
+    {}
+  );
 
-const project = (properties, objects) =>
-  objects.map(object => pluck(properties, object));
+// This is equivalent to Ramda's `project` function
+module.exports = (properties, objects) => {
+  if (
+    !isArrayOfType(properties, 'string') ||
+    !isArrayOfType(objects, 'object')
+  ) {
+    return [];
+  }
 
-const result = project(['name', 'price'], products);
-console.log(result);
+  return objects.map(object => pluck(properties, object));
+};

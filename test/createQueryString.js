@@ -43,7 +43,7 @@ test('native createQueryString should return a query string', assert => {
   const expected = '?page=2&pageSize=10&total=205';
   const actual = nativeFn(obj);
 
-  assert.deepEquals(actual, expected);
+  assert.equals(actual, expected);
   assert.end();
 });
 
@@ -56,6 +56,6 @@ test('ramda createQueryString should return a query string', assert => {
   const expected = '?size=2&color=blue&price=55';
   const actual = ramdaFn(obj);
 
-  assert.deepEquals(actual, expected);
+  assert.equals(actual, expected);
   assert.end();
 });
