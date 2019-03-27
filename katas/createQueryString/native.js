@@ -1,14 +1,14 @@
-const qsObj = {
-  page: '2',
-  pageSize: '10',
-  total: '205'
-};
+const isPlainObject = require('../../helpers/isPlainObject');
 
-const createQueryString = obj =>
-  Object.entries(obj)
+const createQueryString = obj => {
+  if (!isPlainObject(obj) || Object.keys(obj).length === 0) {
+    return '';
+  }
+
+  return Object.entries(obj)
     .map(entry => entry.join('='))
     .join('&')
     .replace(/^/, '?'); // Add '?' to the start of the string
+};
 
-const result = createQueryString(qsObj);
-console.log(result);
+module.exports = createQueryString;

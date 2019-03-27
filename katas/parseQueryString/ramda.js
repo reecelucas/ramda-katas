@@ -1,5 +1,5 @@
 const R = require('ramda');
-const { isValidQueryString } = require('./helpers');
+const isValidQueryString = require('../../helpers/isValidQueryString');
 
 const isValidQs = R.curry(isValidQueryString);
 const getDefault = R.always({});

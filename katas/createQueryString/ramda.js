@@ -1,17 +1,15 @@
 const R = require('ramda');
+const isPlainObject = require('../../helpers/isPlainObject');
 
-const qsObj = {
-  page: '2',
-  pageSize: '10',
-  total: '205'
-};
-
-const createQueryString = R.compose(
+const isValidArg = arg => isPlainObject(arg) && R.not(R.isEmpty(arg));
+const getDefault = R.always('');
+const createQs = R.compose(
   R.concat('?'),
   R.join('&'),
   R.map(R.join('=')),
   R.toPairs
 );
 
-const result = createQueryString(qsObj);
-console.log(result);
+const createQueryString = R.ifElse(isValidArg, createQs, getDefault);
+
+module.exports = createQueryString;

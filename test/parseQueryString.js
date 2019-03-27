@@ -2,60 +2,64 @@ const test = require('tape');
 const nativeFn = require('../katas/parseQueryString/native');
 const ramdaFn = require('../katas/parseQueryString/ramda');
 
-const getPrintFriendlyValue = val =>
-  !val && typeof val === 'string' ? 'empty string' : val;
-
-test('parseQueryString returns an empty object when passed an invalid query string', assert => {
-  const invalidArgs = [
-    undefined,
-    null,
-    NaN,
-    0,
-    false,
-    '',
-    'key=value&key=value',
-    '?key:value'
-  ];
-
-  for (const arg of invalidArgs) {
-    const actualNative = nativeFn(arg);
-    const actualRamda = ramdaFn(arg);
-
-    assert.deepEquals(
-      actualNative,
-      {},
-      `Native function handles ${getPrintFriendlyValue(arg)} correctly`
-    );
-    assert.deepEquals(
-      actualRamda,
-      {},
-      `Ramda function handles ${getPrintFriendlyValue(arg)} correctly`
-    );
-  }
-
+test('native parseQueryString should return an empty object for invalid types', assert => {
+  assert.deepEquals(nativeFn(undefined), {});
+  assert.deepEquals(nativeFn(null), {});
+  assert.deepEquals(nativeFn(NaN), {});
+  assert.deepEquals(nativeFn(0), {});
+  assert.deepEquals(nativeFn(123), {});
+  assert.deepEquals(nativeFn(false), {});
+  assert.deepEquals(nativeFn(true), {});
+  assert.deepEquals(nativeFn({}), {});
+  assert.deepEquals(nativeFn([]), {});
+  assert.deepEquals(nativeFn([1, 2, 3]), {});
+  assert.deepEquals(nativeFn(() => {}), {});
+  assert.deepEquals(nativeFn(''), {});
+  assert.deepEquals(nativeFn('?key:value'), {});
+  assert.deepEquals(nativeFn('key=value&key=value'), {});
   assert.end();
 });
 
-test('parseQueryString returns an object when passed a valid query string', assert => {
+test('ramda parseQueryString should return an empty object for invalid types', assert => {
+  assert.deepEquals(ramdaFn(undefined), {});
+  assert.deepEquals(ramdaFn(null), {});
+  assert.deepEquals(ramdaFn(NaN), {});
+  assert.deepEquals(ramdaFn(0), {});
+  assert.deepEquals(ramdaFn(123), {});
+  assert.deepEquals(ramdaFn(false), {});
+  assert.deepEquals(ramdaFn(true), {});
+  assert.deepEquals(ramdaFn({}), {});
+  assert.deepEquals(ramdaFn([]), {});
+  assert.deepEquals(ramdaFn([1, 2, 3]), {});
+  assert.deepEquals(ramdaFn(() => {}), {});
+  assert.deepEquals(ramdaFn(''), {});
+  assert.deepEquals(ramdaFn('?key:value'), {});
+  assert.deepEquals(ramdaFn('key=value&key=value'), {});
+  assert.end();
+});
+
+test('native parseQueryString should return an object with string values', assert => {
   const qs = '?page=2&pageSize=10&total=203';
   const expected = {
     page: '2',
     pageSize: '10',
     total: '203'
   };
+  const actual = nativeFn(qs);
 
-  const actualNative = nativeFn(qs);
-  const actualRamda = ramdaFn(qs);
+  assert.deepEquals(actual, expected);
+  assert.end();
+});
 
-  assert.deepEquals(
-    actualNative,
-    expected,
-    'Native function returns the expected queries object'
-  );
-  assert.deepEquals(
-    actualRamda,
-    expected,
-    'Ramda function returns the expected queries object'
-  );
+test('ramda parseQueryString should return an object with string values', assert => {
+  const qs = '?size=10&color=blue&price=200';
+  const expected = {
+    size: '10',
+    color: 'blue',
+    price: '200'
+  };
+  const actual = ramdaFn(qs);
+
+  assert.deepEquals(actual, expected);
   assert.end();
 });

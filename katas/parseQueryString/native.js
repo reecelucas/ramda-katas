@@ -1,7 +1,10 @@
-const { isValidQueryString } = require('./helpers');
+const isValidQueryString = require('../../helpers/isValidQueryString');
 
 const parseQueryString = qs => {
-  if (!isValidQueryString(qs)) return {};
+  if (!isValidQueryString(qs)) {
+    return {};
+  }
+
   const [_head, ...tail] = qs.split('');
 
   return tail
